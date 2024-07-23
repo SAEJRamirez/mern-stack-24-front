@@ -1,13 +1,21 @@
 import './App.css'
-import {Typography} from "@material-tailwind/react";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import Home from "./pages/Home.jsx";
+import Navigation from "./components/Navigation.jsx";
+import Pokedex from "./pages/Pokedex.jsx";
+import PokeDetails from "./components/PokeDetails.jsx";
 
 function App() {
-
-  return (
-    <>
-        <Typography variant={"h1"}>Coucou</Typography>
-    </>
-  )
+    return (
+        <BrowserRouter>
+            <Navigation />
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/pokedex" element={<Pokedex />} />
+                <Route path="/details/:name" element={<PokeDetails />} />
+            </Routes>
+        </BrowserRouter>
+    )
 }
 
 export default App
