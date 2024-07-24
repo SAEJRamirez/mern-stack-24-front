@@ -33,10 +33,10 @@ const Navigation = () => {
                 </div>
                 <div className="hidden gap-2 lg:flex">
                     <Button variant="text" size="sm" color="blue-gray">
-                        Se connecter
+                        <a href="/login">Se connecter</a>
                     </Button>
                     <Button variant="gradient" size="sm">
-                        S'inscrire
+                        <a href="/register">S'inscrire</a>
                     </Button>
                 </div>
                 <IconButton

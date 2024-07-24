@@ -22,6 +22,15 @@ const NavList = () => {
             >
                 Les Pokémons
             </Typography>
+            <Typography
+                as="a"
+                href="/admin"
+                variant="small"
+                color="blue-gray"
+                className="p-1 font-medium cursor-pointer"
+            >
+                Administration
+            </Typography>
         </ul>
     );
 };

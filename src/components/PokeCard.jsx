@@ -7,8 +7,8 @@ const PokeCard = () => {
     const navigate = useNavigate()
 
     return (
-        <Card className="w-72 transition ease-in hover:transform hover:-translate-y-4 cursor-pointer" onClick={() => navigate(`/details/Bulbizarre`)}>
-            <CardHeader floated={false} className="h-52 w-52 mx-auto bg-gray-300">
+        <Card className="w-64 h-80 transition ease-in hover:transform hover:-translate-y-4 cursor-pointer" onClick={() => navigate(`/details/Bulbizarre`)}>
+            <CardHeader floated={true} className="h-48 w-48 mx-auto bg-gray-200">
                     <img src="/pokemon/bulbizarre.png" alt="Bulbizarre"/>
             </CardHeader>
             <CardBody className="text-center">
