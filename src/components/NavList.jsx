@@ -31,6 +31,15 @@ const NavList = () => {
             >
                 Administration
             </Typography>
+            <Typography
+                as="a"
+                href="/profil"
+                variant="small"
+                color="blue-gray"
+                className="p-1 font-medium cursor-pointer"
+            >
+                Mon profil
+            </Typography>
         </ul>
     );
 };

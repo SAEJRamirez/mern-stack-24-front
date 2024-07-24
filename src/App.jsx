@@ -10,8 +10,12 @@ import Register from "./pages/Register.jsx";
 import Admin from "./pages/Admin.jsx";
 import EditPoke from "./pages/EditPoke.jsx";
 import AddPoke from "./pages/AddPoke.jsx";
+import Profil from "./pages/Profil.jsx";
 
 function App() {
+
+    //TODO Faire la page profil + page 404
+
     return (
         <BrowserRouter>
             <Navigation />
@@ -24,6 +28,8 @@ function App() {
                 <Route path="/edit/:name" element={<EditPoke />} />
                 <Route path="/add-pokemon" element={<AddPoke />} />
                 <Route path="/admin" element={<Admin />} />
+                <Route path="/profil" element={<Profil />} />
+                <Route path="/*" element={<h1> 404 </h1>} />
             </Routes>
             <Footer />
         </BrowserRouter>
