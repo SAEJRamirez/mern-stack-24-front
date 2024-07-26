@@ -11,10 +11,9 @@ import Admin from "./pages/Admin.jsx";
 import EditPoke from "./pages/EditPoke.jsx";
 import AddPoke from "./pages/AddPoke.jsx";
 import Profil from "./pages/Profil.jsx";
+import Redirect from "./pages/Redirect.jsx";
 
 function App() {
-
-    //TODO Faire la page profil + page 404
 
     return (
         <BrowserRouter>
@@ -29,7 +28,7 @@ function App() {
                 <Route path="/add-pokemon" element={<AddPoke />} />
                 <Route path="/admin" element={<Admin />} />
                 <Route path="/profil" element={<Profil />} />
-                <Route path="/*" element={<h1> 404 </h1>} />
+                <Route path="/*" element={<Redirect />} />
             </Routes>
             <Footer />
         </BrowserRouter>
