@@ -1,11 +1,21 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import PokeCard from "../components/PokeCard.jsx";
-import {IconButton, Option, Select, Typography} from "@material-tailwind/react";
+import {IconButton, Option, Select, Spinner, Typography} from "@material-tailwind/react";
 import {TbReload} from "react-icons/tb";
 import { TbSortAscendingNumbers, TbSortDescendingNumbers, TbZoomReset  } from "react-icons/tb";
+import {usePokemonStore} from "../stores/pokemonStore.js";
 
 
 const Pokedex = () => {
+
+    const pokemons = usePokemonStore((state) => state.pokemon)
+    const loading = usePokemonStore((state) => state.loading)
+    const getPokemon = usePokemonStore((state) => state.getPokemons)
+
+    useEffect(() => {
+        getPokemon()
+    }, [])
+
     return (
         <section className="m-10">
             <div
@@ -92,13 +102,15 @@ const Pokedex = () => {
                         </IconButton>
                     </div>
                 </div>
+                <div className="flex justify-center pt-10">
+                    {loading && (
+                        <Spinner className="h-20 w-20" color="blue"/>
+                    )}
+                </div>
                 <div className="flex flex-wrap justify-center gap-20 mt-16">
-                    <PokeCard/>
-                    <PokeCard/>
-                    <PokeCard/>
-                    <PokeCard/>
-                    <PokeCard/>
-                    <PokeCard/>
+                    {pokemons.map((pokemon, index) => (
+                        <PokeCard pokemon={pokemon} key={index}/>
+                    ))}
                 </div>
             </div>
         </section>

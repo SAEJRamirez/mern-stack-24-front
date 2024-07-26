@@ -42,9 +42,7 @@ const Home = () => {
                         </IconButton>
                     </div>
                     <div className="flex justify-center gap-20 mt-12">
-                        <PokeCard />
-                        <PokeCard />
-                        <PokeCard />
+                        <h4>A FAIRE</h4>
                     </div>
                 </div>
             </section>
