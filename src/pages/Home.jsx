@@ -1,8 +1,21 @@
-import {Button, IconButton, Typography} from "@material-tailwind/react";
+import {Button, IconButton, Spinner, Typography} from "@material-tailwind/react";
 import PokeCard from "../components/PokeCard.jsx";
 import { TbReload } from "react-icons/tb";
+import {usePokemonStore} from "../stores/pokemonStore.js";
+import {useEffect} from "react";
 
 const Home = () => {
+
+    const randomPokemon = usePokemonStore((state) => state.randomPokemon)
+    const loading = usePokemonStore((state) => state.loading)
+    const getRandomPokemon = usePokemonStore((state) => state.getRandomPokemon)
+
+    //todo Corriger bug type et faiblesse, finir évolution, ajouter le state singlePokemon a Pokecard
+
+    useEffect(() => {
+        getRandomPokemon()
+    }, [])
+
     return (
         <>
             <section className="m-10">
@@ -37,13 +50,18 @@ const Home = () => {
                         >
                             Découvrez 3 nouveaux amis aléatoire !
                         </Typography>
-                        <IconButton color="purple">
+                        <IconButton color="purple" onClick={getRandomPokemon}>
                             <i><TbReload size={20}/></i>
                         </IconButton>
                     </div>
-                    <div className="flex justify-center gap-20 mt-12">
-                        <h4>A FAIRE</h4>
-                    </div>
+                    <section className="flex justify-center gap-20 mt-12">
+                        {loading && (
+                            <Spinner className="h-20 w-20" color="blue"/>
+                        )}
+                        {randomPokemon.map((pokemon, index) => (
+                            <PokeCard pokemon={pokemon} key={index} />
+                        ))}
+                    </section>
                 </div>
             </section>
         </>

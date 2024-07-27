@@ -10,12 +10,12 @@ const PokeDetails = () => {
 
     const param = useParams().name
     const pokeName = param.charAt(0).toUpperCase() + param.slice(1)
-    const pokemon = usePokemonStore((state) => state.pokemon)
+    const singlePokemon = usePokemonStore((state) => state.singlePokemon)
     const loading = usePokemonStore((state) => state.loading)
     const getSinglePokemon = usePokemonStore((state) => state.getSinglePokemon)
 
     useEffect(() => {
-        getSinglePokemon(param)
+        getSinglePokemon(pokeName)
     }, [])
 
     return (
@@ -23,21 +23,28 @@ const PokeDetails = () => {
             <div className="py-16 px-40 rounded-l-xl border border-purple-100 rounded-xl bg-gradient-to-b from-blue-gray-700 to-black">
                 <div className="bg-white rounded-l-xl">
                     <div className="pt-6">
-                        <Typography variant="h1">
-                            {pokemon[0].pokemon_infos.pokemon_name}
-                        </Typography>
+                        {singlePokemon[0] && (
+                            <>
+                                <Typography variant="h1">
+                                    {singlePokemon[0]?.pokemon_name}
+                                </Typography>
+                                <Typography variant="h2" className="text-gray-600">
+                                    {singlePokemon[0]?.pokemon_num}
+                                </Typography>
+                            </>
+                        )}
                     </div>
                     <div className="flex justify-center items-start gap-6 mt-10">
                         <img className="w-1/4 bg-gray-300"
-                             src={`${pokemon[0].pokemon_infos.pokemon_img}`}
-                             alt={`Image du Pokémon ${pokemon[0].pokemon_infos.pokemon_name}`}/>
-                        <PokeDescription pokemon={pokemon}/>
+                             src={`${singlePokemon[0]?.pokemon_infos.pokemon_img}`}
+                             alt={`Image du Pokémon ${singlePokemon[0]?.pokemon_name}`}/>
+                        <PokeDescription pokemon={singlePokemon}/>
                     </div>
                     <div className="mt-10">
-                        <PokeStats/>
+                        <PokeStats pokemon={singlePokemon}/>
                     </div>
                     <div className="mt-10">
-                        <Pokevolution />
+                        <Pokevolution pokemon={singlePokemon}/>
                     </div>
                     <div className="mt-10 pb-10">
                         <Button>
