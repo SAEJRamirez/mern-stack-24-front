@@ -10,8 +10,6 @@ const Home = () => {
     const loading = usePokemonStore((state) => state.loading)
     const getRandomPokemon = usePokemonStore((state) => state.getRandomPokemon)
 
-    //todo Corriger bug type et faiblesse, finir évolution, ajouter le state singlePokemon a Pokecard
-
     useEffect(() => {
         getRandomPokemon()
     }, [])

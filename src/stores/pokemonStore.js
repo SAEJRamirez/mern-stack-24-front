@@ -4,8 +4,10 @@ import axios from "axios";
 export const usePokemonStore = create((set) => ({
     pokemon: [],
     singlePokemon: [],
+    pokemonById: [],
     randomPokemon: [],
     loading: false,
+    error: null,
 
     getPokemons: async () => {
         set((state) => ({loading: !state.loading}))
@@ -19,6 +21,14 @@ export const usePokemonStore = create((set) => ({
         const response = await axios.get(`http://localhost:5000/api/pokemon/${name}`)
         set(() => ({singlePokemon: response.data}))
         set((state) => ({loading: !state.loading}))
+    },
+
+    getPokemonById: async (id) => {
+        set((state) => ({loading: !state.loading}))
+        const response = await axios.get(`http://localhost:5000/api/pokemon/single/${id}`)
+        set(() => ({pokemonById: response.data}))
+        set((state) => ({loading: !state.loading}))
+
     },
 
     getRandomPokemon: async () => {

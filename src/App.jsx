@@ -24,7 +24,7 @@ function App() {
                 <Route path="/register" element={<Register />} />
                 <Route path="/pokedex" element={<Pokedex />} />
                 <Route path="/details/:name" element={<PokeDetails />} />
-                <Route path="/edit/:name" element={<EditPoke />} />
+                <Route path="/edit/:id" element={<EditPoke />} />
                 <Route path="/add-pokemon" element={<AddPoke />} />
                 <Route path="/admin" element={<Admin />} />
                 <Route path="/profil" element={<Profil />} />

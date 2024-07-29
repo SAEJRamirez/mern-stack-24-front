@@ -1,7 +1,18 @@
 import {Button, Typography} from "@material-tailwind/react";
 import AdminListItem from "../components/AdminListItem.jsx";
+import {usePokemonStore} from "../stores/pokemonStore.js";
+import {useEffect} from "react";
 
 const Admin = () => {
+
+    const pokemons = usePokemonStore((state) => state.pokemon)
+    const loading = usePokemonStore((state) => state.loading)
+    const getPokemon = usePokemonStore((state) => state.getPokemons)
+
+    useEffect(() => {
+        getPokemon()
+    }, [])
+
     return (
         <section className="m-10">
             <div
@@ -18,11 +29,12 @@ const Admin = () => {
                     <Button color="light-green"><a href="/add-pokemon">Ajouter un Pokemon</a></Button>
                 </div>
                 <div className="my-10 flex flex-col items-center">
-                    <AdminListItem/>
-                    <AdminListItem/>
-                    <AdminListItem/>
-                    <AdminListItem/>
-                    <AdminListItem/>
+                    {pokemons && pokemons.map((pokemon, index) => (
+                        <div key={index}>
+                            <AdminListItem pokemon={pokemon}/>
+                        </div>
+                    ))}
+
                 </div>
             </div>
         </section>

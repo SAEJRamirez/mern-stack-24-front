@@ -19,6 +19,7 @@ const Register = () => {
                     color="gray"
                     className="grid h-36 place-items-start bg-[url('/bg-register.png')] bg-no-repeat bg-cover bg-bottom"
                 >
+                    <span></span>
                 </CardHeader>
                 <CardBody className="flex flex-col gap-8">
                     <Typography variant="h3" color="blue-gray">

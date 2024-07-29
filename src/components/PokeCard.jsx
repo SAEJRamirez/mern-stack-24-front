@@ -1,27 +1,10 @@
 import {Card, CardBody, CardFooter, CardHeader, Chip, Typography} from "@material-tailwind/react";
 import {useNavigate} from "react-router-dom";
-import {useEffect, useState} from "react";
 
 
-const PokeCard = ({pokemon} = null) => {
+const PokeCard = ({pokemon}) => {
 
     const navigate = useNavigate()
-    const [types, setTypes] = useState([])
-
-    useEffect(() => {
-        if(pokemon) {
-            pokemon.pokemon_type_weakness.map(el => {
-                if(el.includes('t_')) {
-                    if(!types.includes(el.substring(2))) {
-                        setTypes([
-                            ...types,
-                            el.substring(2)
-                        ])
-                    }
-                }
-            })
-        }
-    }, [pokemon])
 
     return (
         <>
@@ -38,8 +21,8 @@ const PokeCard = ({pokemon} = null) => {
                             {pokemon.pokemon_name}
                         </Typography>
                         <CardFooter className="flex justify-center gap-2 py-2">
-                            {types.map((type, index) => (
-                                <Chip key={index} value={type} size="sm" className="text-blue-gray-900" style={{ backgroundColor: "#9bcc50" }} />
+                            {pokemon.pokemon_type.map((el, index) => (
+                                <Chip key={index} value={el.name} size="sm" className="text-blue-gray-900" style={{ background: `${el.background}`}} />
                             ))}
                         </CardFooter>
                     </CardBody>

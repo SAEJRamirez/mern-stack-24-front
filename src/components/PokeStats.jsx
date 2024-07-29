@@ -1,5 +1,5 @@
 import {Chip, Progress, Typography} from "@material-tailwind/react";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {usePokemonStore} from "../stores/pokemonStore.js";
 
 const PokeStats = () => {
@@ -8,36 +8,7 @@ const PokeStats = () => {
         return (value * 100) / 15
     }
 
-    const [types, setTypes] = useState([])
-    const [weakness, setWeakness] = useState([])
     const singlePokemon = usePokemonStore((state) => state.singlePokemon)
-
-    useEffect(() => {
-        if(singlePokemon[0]) {
-            singlePokemon[0]?.pokemon_type_weakness.map(el => {
-                if(el.includes('t_')) {
-                    if(!types.includes(el.substring(2))) {
-                        setTypes([
-                            ...types,
-                            el.substring(2)
-                        ])
-                    }
-                }
-            })
-            singlePokemon[0]?.pokemon_type_weakness.map(el => {
-                console.log(el)
-                if(el.includes('f_')) {
-                    if(!weakness.includes(el.substring(2))) {
-                        setWeakness([
-                            ...weakness,
-                            el.substring(2)
-                        ])
-                    }
-                }
-            })
-        }
-    }, [singlePokemon])
-    console.log(weakness)
 
     return (
         <section className="flex justify-center items-center gap-6">
@@ -83,8 +54,8 @@ const PokeStats = () => {
                 <div className="flex flex-wrap justify-start mb-6">
                     <Typography className="w-full text-left mb-6" variant="lead">Type</Typography>
                     <div className="flex gap-6">
-                        {types.map((type, index) => (
-                            <Chip key={index} value={type} size="sm" className="text-blue-gray-900" style={{ backgroundColor: "#9bcc50" }} />
+                        {singlePokemon[0]?.pokemon_type.map((el, index) => (
+                            <Chip key={index} value={el.name} size="sm" className="text-blue-gray-900" style={{ background:`${el.background}`  }} />
                         ))}
                     </div>
 
@@ -92,8 +63,8 @@ const PokeStats = () => {
                 <div>
                     <Typography className="w-full text-left mb-6" variant="lead">Faiblesse(s)</Typography>
                     <div className="flex flex-wrap gap-6">
-                        {weakness.map((type, index) => (
-                            <Chip key={index} value={type} size="sm" className="text-blue-gray-900" style={{ backgroundColor: "#9bcc50" }} />
+                        {singlePokemon[0]?.pokemon_weakness.map((el, index) => (
+                            <Chip key={index} value={el.name} size="sm" className="text-blue-gray-900" style={{ background:`${el.background}`  }} />
                         ))}
                     </div>
                 </div>
