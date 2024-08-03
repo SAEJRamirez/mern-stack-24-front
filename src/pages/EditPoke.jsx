@@ -1,26 +1,45 @@
-import {useParams} from "react-router-dom";
-import {Button, Input, Typography} from "@material-tailwind/react";
+import {useNavigate, useParams} from "react-router-dom";
+import {Button, Input, Spinner, Typography} from "@material-tailwind/react";
 import {useEffect, useState} from "react";
 import {usePokemonStore} from "../stores/pokemonStore.js";
 
 
 const EditPoke = () => {
     const param = useParams().id
-
     const [num, setNum] = useState("")
     const [name, setName] = useState("")
     const [img, setImg] = useState("")
+    const [errorMsg, setErrorMsg] = useState("")
+    const navigate = useNavigate()
     const pokemonById = usePokemonStore((state) => state.pokemonById)
     const loading = usePokemonStore((state) => state.loading)
     const getPokemonById = usePokemonStore((state) => state.getPokemonById)
+    const editPokemon = usePokemonStore((state) => state.editPokemon)
 
     useEffect(() => {
         getPokemonById(param)
     }, [])
 
+    useEffect(() => {
+        setNum(pokemonById?.pokemon_num)
+        setName(pokemonById?.pokemon_name)
+        setImg(pokemonById?.pokemon_infos?.pokemon_img)
+    }, [pokemonById])
+
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log(num, name, img)
+        setErrorMsg("")
+        if(!num || !name || !img) {
+            setErrorMsg("Merci de remplir tous les champs.")
+        } else {
+            const formData = {
+                num,
+                name,
+                img
+            }
+            editPokemon(param, formData )
+            navigate("/admin")
+        }
     }
 
 
@@ -29,6 +48,9 @@ const EditPoke = () => {
             {pokemonById.length !== 0 && (
                 <div
                     className="p-10 rounded-l-xl border border-purple-100 rounded-xl bg-gradient-to-b from-blue-gray-700 to-black">
+                    {loading && (
+                        <Spinner className="w-40 h-40 mx-auto" color="light-green"/>
+                    )}
                     <div className="flex justify-center items-center gap-6 mb-8">
                         <Typography
                             variant="h2"
@@ -47,7 +69,7 @@ const EditPoke = () => {
                                 label="Numéro"
                                 name="num"
                                 type="text"
-                                value={pokemonById?.pokemon_num}
+                                value={num || ""}
                                 onChange={(e) => setNum(e.target.value)}/>
                         </div>
                         <div className="flex items-center gap-6 w-full">
@@ -59,7 +81,7 @@ const EditPoke = () => {
                                 label="Nom"
                                 type="text"
                                 name="name"
-                                value={pokemonById?.pokemon_name}
+                                value={name || ""}
                                 onChange={(e) => setName(e.target.value)}
                             />
                         </div>
@@ -73,12 +95,13 @@ const EditPoke = () => {
                                 label="Image"
                                 name="img"
                                 type="text"
-                                value={pokemonById?.pokemon_infos.pokemon_img}
+                                value={img || ""}
                                 onChange={(e) => setImg(e.target.value)}
                             />
                         </div>
                     </div>
-                    <div className="text-center my-10">
+                    <div className="text-center my-6">
+                        <Typography variant="lead" color="red" className="mb-6">{errorMsg}</Typography>
                         <Button color="yellow" onClick={handleSubmit}>Enregistrer</Button>
                     </div>
                 </div>

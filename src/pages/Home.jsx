@@ -14,6 +14,9 @@ const Home = () => {
         getRandomPokemon()
     }, [])
 
+    //TODO Ne pas oublier les notifications avec Toastify ou notifs de matérial Tailwind
+    //J'en suis au Create
+
     return (
         <>
             <section className="m-10">

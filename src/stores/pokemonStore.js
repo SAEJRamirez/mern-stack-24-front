@@ -7,7 +7,8 @@ export const usePokemonStore = create((set) => ({
     pokemonById: [],
     randomPokemon: [],
     loading: false,
-    error: null,
+    message: "",
+    error: "",
 
     getPokemons: async () => {
         set((state) => ({loading: !state.loading}))
@@ -37,5 +38,29 @@ export const usePokemonStore = create((set) => ({
         const random = response.data.sort(() => Math.random() - Math.random()).slice(0, 3)
         set(() => ({randomPokemon: random}))
         set((state) => ({loading: !state.loading}))
+    },
+
+    createPokemon: async (data) => {
+        set((state) => ({loading: !state.loading}))
+        const response = await axios.post('http://localhost:5000/api/pokemon', data)
+        set(() => ({message: response.data}))
+        set((state) => ({loading: !state.loading}))
+    },
+
+    editPokemon: async (id, data) => {
+        set((state) => ({loading: !state.loading}))
+        const response = await axios.put(`http://localhost:5000/api/pokemon/${id}`, data)
+        set(() => ({message: response.data}))
+        set((state) => ({loading: !state.loading}))
+    },
+
+    deletePokemon: async (id) => {
+        const response = await axios.delete(`http://localhost:5000/api/pokemon/${id}`)
+        set(() => ({message: response.data}))
+        if(response.status === 200) {
+            set((state) => ({
+                pokemon : state.pokemon.filter((poke) => poke._id !== id)
+            }))
+        }
     }
 }))

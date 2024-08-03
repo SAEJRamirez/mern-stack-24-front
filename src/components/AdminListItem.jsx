@@ -1,13 +1,18 @@
 import { IconButton, Typography} from "@material-tailwind/react";
 import { TfiTrash } from "react-icons/tfi";
 import { FaRegEye, FaRegEdit  } from "react-icons/fa";
+import {usePokemonStore} from "../stores/pokemonStore.js";
 
 
 
 const AdminListItem = ({pokemon}) => {
 
+    const deletePokemon = usePokemonStore((state) => state.deletePokemon)
+
     const handleDelete = (id) => {
-        console.log(id)
+        if(id) {
+            deletePokemon(id)
+        }
     }
 
     return (

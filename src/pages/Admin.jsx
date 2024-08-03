@@ -11,7 +11,7 @@ const Admin = () => {
 
     useEffect(() => {
         getPokemon()
-    }, [])
+    }, [getPokemon])
 
     return (
         <section className="m-10">

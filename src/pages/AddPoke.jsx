@@ -1,10 +1,17 @@
 import React, {useState} from 'react';
 import {Button, Card, Checkbox, Chip, Input, Textarea, Typography} from "@material-tailwind/react";
+import {usePokemonStore} from "../stores/pokemonStore.js";
+import {useNavigate} from "react-router-dom";
+import {backgroundsTypes} from "../utils/backgroundsTypes.js";
 
 const AddPoke = () => {
 
     const [inputs, setInputs] = useState({})
     const [checkbox, setCheckbox] = useState({})
+    const createPokemon = usePokemonStore((state) => state.createPokemon)
+    const getPokemons = usePokemonStore((state) => state.getPokemons)
+    const loading = usePokemonStore((state) => state.loading)
+    const navigate = useNavigate()
 
     const handleChange = (e) => {
         const name = e.target.name
@@ -18,8 +25,42 @@ const AddPoke = () => {
     }
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log(inputs)
-        console.log(checkbox)
+        let type = []
+        let weakness = []
+        let gender = []
+        Object.entries(checkbox).forEach(el => {
+            if(el[1] === true) {
+                if(el[0].includes('t_')) {
+                    let bg = ""
+                    backgroundsTypes.forEach(bgObj => {
+                        if(bgObj.name === el[0].substring(2)) {
+                            bg = bgObj.background
+                        }
+                    })
+                    type.push({name : el[0].substring(2), background: bg})
+                } else if(el[0].includes('f_')) {
+                    let bg = ""
+                    backgroundsTypes.forEach(bgObj => {
+                        if(bgObj.name === el[0].substring(2)) {
+                            bg = bgObj.background
+                        }
+                    })
+                    weakness.push({name : el[0].substring(2), background: bg})
+                } else {
+                    gender.push(el[0])
+                }
+            }
+        })
+        inputs.pokemon_type = type
+        inputs.pokemon_weakness = weakness
+        inputs.pokemon_gender = gender
+
+        if(inputs.pokemon_name !== "" && inputs.pokemon_num !== "") {
+            createPokemon(inputs)
+            setInputs({})
+            setCheckbox({})
+        }
+        navigate("/admin")
     }
 
 
@@ -63,6 +104,16 @@ const AddPoke = () => {
                                 value={inputs.pokemon_img || ""}
                                 onChange={(e) => handleChange(e)}
                             />
+                            <Typography variant="lead" className="-mb-3" color="blue-gray">Texte du talent</Typography>
+                            <Textarea
+                                variant="outlined"
+                                size="md"
+                                color="blue-gray"
+                                label="Texte du talent"
+                                name="pokemon_tooltip"
+                                value={inputs.pokemon_tooltip || ""}
+                                onChange={(e) => handleChange(e)}
+                            />
                         </div>
 
                         <div className="p-4 flex flex-col gap-4 border border-blue-400 rounded-2xl w-1/3">
@@ -95,8 +146,8 @@ const AddPoke = () => {
                                 placeholder="Poids du Pokemon"
                                 label="Poids du Pokemon"
                                 color="light-blue"
-                                name="pokemon_weigth"
-                                value={inputs.pokemon_weigth || ""}
+                                name="pokemon_weight"
+                                value={inputs.pokemon_weight || ""}
                                 onChange={(e) => handleChange(e)}
                             />
                             <Typography variant="lead" className="-mb-3" color="light-blue">Talent</Typography>
@@ -112,8 +163,8 @@ const AddPoke = () => {
                             />
                             <Typography variant="lead" className="-mb-3" color="light-blue">Sexe</Typography>
                             <div className="flex">
-                                <Checkbox label="Mâle" color="light-blue" name="pokemon_male" onChange={handleCheckboxChange}/>
-                                <Checkbox label="Femelle" color="light-blue" name="pokemon_female" onChange={handleCheckboxChange}/>
+                                <Checkbox label="Mâle" color="light-blue" name="male" onChange={handleCheckboxChange}/>
+                                <Checkbox label="Femelle" color="light-blue" name="female" onChange={handleCheckboxChange}/>
                             </div>
                         </div>
 
@@ -292,8 +343,8 @@ const AddPoke = () => {
                                 <div className="flex">
                                     <Chip value="Poison" className="text-white w-24 text-center"
                                           style={{backgroundColor: "#b97fc9"}}/>
-                                    <Checkbox label="T" name="t_combat" onChange={handleCheckboxChange}/>
-                                    <Checkbox label="F" name="t_combat" onChange={handleCheckboxChange}/>
+                                    <Checkbox label="T" name="t_poison" onChange={handleCheckboxChange}/>
+                                    <Checkbox label="F" name="t_poison" onChange={handleCheckboxChange}/>
                                 </div>
                                 <div className="flex">
                                     <Chip value="Psy" className="text-white w-24 text-center"
