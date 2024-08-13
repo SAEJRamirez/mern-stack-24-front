@@ -1,12 +1,14 @@
 import {Button, Card, CardBody, Collapse, IconButton, Input, Typography} from "@material-tailwind/react";
 import {FaRegEdit} from "react-icons/fa";
 import {useState} from "react";
+import {useAuthStore} from "../stores/authStore.js";
 
 const Profil = () => {
 
     const [openUsername, setOpenUsername] = useState(false)
     const [openEmail, setOpenEmail] = useState(false)
     const [openPassword, setOpenPassword] = useState(false)
+    const userInfo = useAuthStore((state) => state.userInfo)
     const [username, setUsername] = useState("")
     const [email, setEmail] = useState("")
     const [oldPassword, setOldPassword] = useState("")
@@ -41,7 +43,7 @@ const Profil = () => {
                     <div className="flex items-center gap-6 border p-2">
                         <div className="flex flex-wrap gap-6 justify-between items-center w-96">
                             <Typography color="white">Pseudo :</Typography>
-                            <Typography color="white">Nannaki</Typography>
+                            <Typography color="white">{userInfo.user.first_name}</Typography>
                             <IconButton variant="text" color="yellow" onClick={toggleOpenUsername}>
                                 <FaRegEdit size={24}/>
                             </IconButton>
@@ -65,7 +67,7 @@ const Profil = () => {
                     <div className="flex items-center gap-6 border p-2">
                         <div className="flex flex-wrap gap-6 justify-between items-center w-96">
                             <Typography color="white">Email :</Typography>
-                            <Typography color="white">julien@email.com</Typography>
+                            <Typography color="white">{userInfo.user.email}</Typography>
                             <IconButton variant="text" color="yellow" onClick={toggleOpenEmail}>
                                 <FaRegEdit size={24}/>
                             </IconButton>

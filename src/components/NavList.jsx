@@ -1,7 +1,9 @@
 import React from 'react';
 import {Typography} from "@material-tailwind/react";
+import {useAuthStore} from "../stores/authStore.js";
 
 const NavList = () => {
+    const userInfo = useAuthStore((state) => state.userInfo)
     return (
         <ul className="my-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
             <Typography
@@ -22,24 +24,18 @@ const NavList = () => {
             >
                 Les Pokémons
             </Typography>
-            <Typography
-                as="a"
-                href="/admin"
-                variant="small"
-                color="blue-gray"
-                className="p-1 font-medium cursor-pointer"
-            >
-                Administration
-            </Typography>
-            <Typography
-                as="a"
-                href="/profil"
-                variant="small"
-                color="blue-gray"
-                className="p-1 font-medium cursor-pointer"
-            >
-                Mon profil
-            </Typography>
+            {userInfo && (
+                <Typography
+                    as="a"
+                    href="/admin"
+                    variant="small"
+                    color="blue-gray"
+                    className="p-1 font-medium cursor-pointer"
+                >
+                    Administration
+                </Typography>
+            )}
+
         </ul>
     );
 };

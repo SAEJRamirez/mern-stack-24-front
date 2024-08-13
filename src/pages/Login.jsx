@@ -1,15 +1,38 @@
 import {Button, Card, CardBody, CardFooter, CardHeader, Input, Typography} from "@material-tailwind/react";
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
+import {useAuthStore} from "../stores/authStore.js";
+import {useUserStore} from "../stores/userStore.js";
 
 const Login = () => {
 
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const login = useUserStore((state) => state.login)
+    const loading = useUserStore((state) => state.userLoading)
+    const user = useUserStore((state) => state.user)
+    const userInfo = useAuthStore((state) => state.userInfo)
+    const setCredentials = useAuthStore((state) => state.setCredentials)
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if (userInfo) {
+            navigate('/')
+        }
+    }, [navigate, userInfo])
 
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
-        console.log(email, password)
+        try {
+            await login({email, password})
+            if(user) {
+                setCredentials({user})
+                navigate('/')
+            }
+        } catch (e) {
+            console.log(e)
+        }
     }
 
     return (
@@ -37,6 +60,7 @@ const Login = () => {
                         size="lg"
                         value={password}
                         name="password"
+                        type="password"
                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </CardBody>
